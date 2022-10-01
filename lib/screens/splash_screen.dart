@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
       duration: 2000,
       imageSize: 130,
       imageSrc: "assets/logoitc.png",
-      text: "Bienvenido",
+      text: "Bienvenido alumno",
       textType: TextType.ScaleAnimatedText,
       textStyle: TextStyle(
         fontSize: 30.0,
