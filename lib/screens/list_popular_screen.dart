@@ -24,7 +24,7 @@ class _ListPopularScreenState extends State<ListPopularScreen> {
             return _listViewPopular(snapshot.data);
           }else{
             if(snapshot.hasError){
-              return Center(child: Text("Ocurrió un error en la petición."),);
+              return Center(child: Text("Ocurrió un error en la petición"),);
             }else{
               return Center(child: CircularProgressIndicator(),);
             }
