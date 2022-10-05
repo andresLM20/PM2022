@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pm2022/provider/theme_screen.dart';
 import 'package:pm2022/screens/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -29,11 +30,24 @@ class DashboardScreen extends StatelessWidget {
             UserAccountsDrawerHeader(
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: AssetImage('assets/cup3.jpg'),
+                        image: AssetImage('assets/cup3.jpg'), //Portada
                         fit: BoxFit.cover)),
-                currentAccountPicture: CircleAvatar(
-                  backgroundImage: AssetImage('assets/cuphead.png'),
-                  backgroundColor: Color.fromARGB(255, 207, 189, 131),
+                currentAccountPicture: GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) => HeroScreen(),
+                      transitionsBuilder: (context, animation, secondaryAnimation, child){
+                        return child;
+                      }
+                    ),
+                  ),
+                  child: Hero(
+                    tag: 's2',
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage('assets/cuphead.png'),  //Perfil
+                      backgroundColor: Color.fromARGB(255, 207, 189, 131),
+                    ),
+                  ),
                 ),
                 accountName: Text(
                   'Andrés Morales Martínez',
@@ -78,4 +92,107 @@ class DashboardScreen extends StatelessWidget {
       body: ThemeScreen(),
     );
   }
+}
+
+class HeroScreen extends StatefulWidget {
+  const HeroScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HeroScreen> createState() => _HeroScreenState();
+}
+
+class _HeroScreenState extends State<HeroScreen> {
+  final double coverHeight = 280;
+  final double profileHeight = 144;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          buildTop(),
+          buildContent(),
+        ],
+        ),
+    );
+  }
+
+  Widget buildTop(){
+    final bottom = profileHeight/2;
+    final top = coverHeight - profileHeight/2;
+    return Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: bottom),
+            child: buildCoverImage()
+            ),
+          Positioned(
+            top: top,
+            child: buildProfileImage()
+            ),
+        ],
+      );
+  }
+
+  Widget buildCoverImage() => Container(
+    child: Image.network('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/cd3e8e66-eda2-4f0d-be39-bc552489c1c4/ddyoev8-83bead08-4664-4818-b06a-0d4123ba15f6.jpg/v1/fill/w_1275,h_626,q_70,strp/cuphead___elder_kettle_s_indoor_house_background_by_berryviolet_ddyoev8-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NjI5IiwicGF0aCI6IlwvZlwvY2QzZThlNjYtZWRhMi00ZjBkLWJlMzktYmM1NTI0ODljMWM0XC9kZHlvZXY4LTgzYmVhZDA4LTQ2NjQtNDgxOC1iMDZhLTBkNDEyM2JhMTVmNi5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.MCMctYA9P6SHmjY30-XcQJOU6eKly4rnmSPY4U01kHU',
+    width: double.infinity,
+    height: coverHeight,
+    fit: BoxFit.cover,
+    ),
+  );
+
+  Widget buildProfileImage() => 
+  Hero(
+    tag: 's2',
+    child: CircleAvatar(
+      radius: profileHeight/2,
+      backgroundImage: AssetImage('assets/cuphead.png'),
+    ),
+  );
+
+  Widget buildContent() => Column(
+    children: [
+      const SizedBox(height: 8),
+      Text(
+        "Andrés Morales Martínez", 
+        style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        ),
+      const SizedBox(height: 8),
+      Text(
+        "18030666@itcelaya.edu.mx", 
+        style: TextStyle(fontSize: 20, color: Colors.black54),
+        ),
+      const SizedBox(height: 8),
+      Text(
+        "4612917743", 
+        style: TextStyle(fontSize: 20, color: Colors.black54),
+        ),
+      const SizedBox(height: 8),
+      Text(
+        "https://github.com/andresLM20/PM2022", 
+        style: TextStyle(fontSize: 20, color: Colors.black54),
+        ),
+        const SizedBox(height: 8,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            buildSocialIcon(FontAwesomeIcons.facebook),
+            const SizedBox(width: 12),
+            buildSocialIcon(FontAwesomeIcons.github),
+            const SizedBox(width: 12),
+            buildSocialIcon(FontAwesomeIcons.instagram),
+          ],
+        )
+    ]
+  );
+
+  Widget buildSocialIcon(IconData icon) => CircleAvatar(
+    radius: 25,
+    child: Center(child: Icon(icon,size: 32,),),
+  );
 }
