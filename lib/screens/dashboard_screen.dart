@@ -3,6 +3,7 @@ import 'package:pm2022/provider/theme_screen.dart';
 import 'package:pm2022/screens/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -181,18 +182,35 @@ class _HeroScreenState extends State<HeroScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildSocialIcon(FontAwesomeIcons.facebook),
+            GestureDetector(
+              onTap: () => _launchUrl('https://www.facebook.com/logands20'),
+              child: CircleAvatar(
+                radius: 25,
+                child: Center(child: Icon(FontAwesomeIcons.facebook,size: 32,),),
+              ),
+            ),
             const SizedBox(width: 12),
-            buildSocialIcon(FontAwesomeIcons.github),
+            GestureDetector(
+              onTap: () => _launchUrl('https://github.com/andresLM20'),
+              child: CircleAvatar(
+                radius: 25,
+                child: Center(child: Icon(FontAwesomeIcons.github,size: 32,),),
+              ),
+            ),
             const SizedBox(width: 12),
-            buildSocialIcon(FontAwesomeIcons.instagram),
+            GestureDetector(
+              onTap: () => _launchUrl('https://www.instagram.com/logan_ds20/'),
+              child: CircleAvatar(
+                radius: 25,
+                child: Center(child: Icon(FontAwesomeIcons.instagram,size: 32,),),
+              ),
+            ),
           ],
         )
     ]
   );
 
-  Widget buildSocialIcon(IconData icon) => CircleAvatar(
-    radius: 25,
-    child: Center(child: Icon(icon,size: 32,),),
-  );
+  _launchUrl(String url) async{
+    await launch(url);
+  }
 }
