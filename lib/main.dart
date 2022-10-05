@@ -3,6 +3,7 @@ import 'package:pm2022/provider/theme_provider.dart';
 import 'package:pm2022/screens/dashboard_screen.dart';
 import 'package:pm2022/screens/list_popular_screen.dart';
 import 'package:pm2022/screens/list_task_screen.dart';
+import 'package:pm2022/screens/profile_edit.dart';
 import 'package:pm2022/screens/splash_screen.dart';
 import 'package:pm2022/screens/login_screen.dart';
 import 'package:pm2022/screens/task_screen.dart';
@@ -42,6 +43,7 @@ class PMSNApp extends StatelessWidget {
           '/task': (BuildContext context) => ListTaskScreen(),
           '/add': (BuildContext context) => TaskScreen(),
           '/popular': (BuildContext context) => ListPopularScreen(),
+          '/profile': (BuildContext context) => ProfileEdit(),
         },
       );
   }

@@ -33,9 +33,13 @@ class _TaskScreenState extends State<TaskScreen> {
     }
     final txtFechaEnt = TextField(
       controller: txtFecha,
-      //decoration: InputDecoration(enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue))),
+      decoration: InputDecoration(border: OutlineInputBorder()),
       );
-    final txtDescTask = TextField(controller: txtDesc, maxLines: 8);
+    final txtDescTask = TextField(
+      controller: txtDesc,
+      decoration: InputDecoration(border: OutlineInputBorder()), 
+      maxLines: 8
+      );
 
     final btnGuardar = ElevatedButton(
       style: ElevatedButton.styleFrom(

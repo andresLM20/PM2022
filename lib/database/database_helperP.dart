@@ -5,9 +5,9 @@ import 'package:pm2022/models/tareas_model.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class DatabaseHelper {
-  static final nombreBD = 'TAREASBD';
-  static final versionBD = 2;
+class DatabaseHelperP {
+  static final nombreBD = 'PerfilBD';
+  static final versionBD = 1;
 
   static Database? _database;
 
@@ -24,9 +24,6 @@ class DatabaseHelper {
   }
 
   _crearTablas(Database db, int version) async {
-    String query =
-        "CREATE TABLE tblTareas(idTarea INTEGER PRIMARY KEY, dscTarea VARCHAR(100), fechaEnt DATE)";
-    db.execute(query);
     String query2 =
         "CREATE TABLE tblperfil(idperfil INTEGER PRIMARY KEY, imagen VARCHAR(100), nombre VARCHAR(100), correo VARCHAR(100), telefono VARCHAR(10), github VARCHAR(100));";
     db.execute(query2);
@@ -40,40 +37,16 @@ class DatabaseHelper {
     return await conexion.insert(nomTabla, row);
   }
 
-  Future<int> actualizar(Map<String, dynamic> row, String nomTabla) async {
-    var conexion = await database;
-    return await conexion.update(nomTabla, row,
-        where: 'idTarea = ?', whereArgs: [row['idTarea']]);
-  }
-
   Future<int> actualizarPerfil(Map<String, dynamic> row, String nomTabla) async {
     var conexion = await database;
     return await conexion.update(nomTabla, row,
         where: 'idperfil = ?', whereArgs: [row['idperfil']]);
   }
 
-  Future<int> eliminar(int idTarea, String nomTabla) async {
-    var conexion = await database;
-    return await conexion.delete(
-      nomTabla,
-      where: 'idTarea = ?',
-      whereArgs: [idTarea],
-    );
-  }
-
-  Future<List<TareasDAO>> getAllTareas() async {
-    var conexion = await database;
-    var result = await conexion.query('tblTareas');
-    print("Inicio");
-    print(result);
-    print("Fin");
-    return result.map((mapTarea) => TareasDAO.fromJSON(mapTarea)).toList();
-  }
-
   Future<List<PerfilDAO>> getPerfil() async {
     var conexion = await database;
     var result = await conexion.query('tblperfil');
-    print("Inicio desde helper");
+    print("Inicio desde helperP");
     print(result);
     print("Fin");
     return result.map((mapPerfil) => PerfilDAO.fromJSON(mapPerfil)).toList();
