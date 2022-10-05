@@ -23,19 +23,17 @@ class DashboardScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).backgroundColor,
       ),
       drawer: Drawer(
-        backgroundColor: Color.fromARGB(248, 225, 232, 255),
+        backgroundColor: Color.fromARGB(255, 207, 189, 131),
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(
-                            'https://i.pinimg.com/originals/44/c1/7a/44c17acda771b6585331377ae23bbbfc.jpg'),
+                        image: AssetImage('assets/cup3.jpg'),
                         fit: BoxFit.cover)),
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Bumblebee_%288023382295%29.jpg/640px-Bumblebee_%288023382295%29.jpg'),
-                  backgroundColor: Colors.blueGrey,
+                  backgroundImage: AssetImage('assets/cuphead.png'),
+                  backgroundColor: Color.fromARGB(255, 207, 189, 131),
                 ),
                 accountName: Text(
                   'Andrés Morales Martínez',
