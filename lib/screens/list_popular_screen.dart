@@ -43,10 +43,25 @@ class _ListPopularScreenState extends State<ListPopularScreen> {
       itemBuilder: (context, index){
       return ClipRRect(
         borderRadius: BorderRadius.circular(10),
-          child: FadeInImage(
-            fadeInDuration: Duration(milliseconds: 500),
-            placeholder: AssetImage('assets/loading_movie.gif'),
-            image: NetworkImage('https://image.tmdb.org/t/p/w500/${snapshot[index].backdropPath!}'),
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+                FadeInImage(
+                fadeInDuration: Duration(milliseconds: 500),
+                placeholder: AssetImage('assets/loading_movie.gif'),
+                image: NetworkImage('https://image.tmdb.org/t/p/w500/${snapshot[index].backdropPath!}'),
+              ),
+              Container(
+                child: ListTile(
+                  onTap: () => Navigator.pushNamed(context, '/detail',
+                    arguments: snapshot[index]),
+                  title: Text(snapshot[index].title!, style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                  trailing: Icon(Icons.chevron_right, color: Colors.white, size: 30,),
+                ),
+                color: Colors.black.withOpacity(.6),
+                height: 60,
+              ),
+            ]
           ),
       );
     },
