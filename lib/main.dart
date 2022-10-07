@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pm2022/provider/theme_provider.dart';
+import 'package:pm2022/screens/about_us_screen.dart';
 import 'package:pm2022/screens/dashboard_screen.dart';
+import 'package:pm2022/screens/home.dart';
 import 'package:pm2022/screens/list_popular_screen.dart';
 import 'package:pm2022/screens/list_task_screen.dart';
+import 'package:pm2022/screens/main_screen.dart';
+import 'package:pm2022/screens/onboarding_screen.dart';
 import 'package:pm2022/screens/popular_detail_screen.dart';
 import 'package:pm2022/screens/profile_edit.dart';
 import 'package:pm2022/screens/splash_screen.dart';
@@ -46,6 +50,10 @@ class PMSNApp extends StatelessWidget {
           '/popular': (BuildContext context) => ListPopularScreen(),
           '/profile': (BuildContext context) => ProfileEdit(),
           '/detail': (BuildContext context) => PopularDetailScreen(),
+          '/about': (BuildContext context) => AboutUsScreen(),
+          '/home': (BuildContext context) => HomePage(),
+          '/onboarding': (BuildContext context) => OnBoardingScreen(),
+          '/mainscreen': (BuildContext context) => MainScreen(),
         },
       );
   }

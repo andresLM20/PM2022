@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pm2022/database/database_helperP.dart';
 import 'package:pm2022/models/perfil_model.dart';
+import 'package:pm2022/provider/theme_provider.dart';
 import 'package:pm2022/provider/theme_screen.dart';
+import 'package:pm2022/screens/home.dart';
 import 'package:pm2022/screens/login_screen.dart';
+import 'package:pm2022/screens/onboarding_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:pm2022/settings/styles_settings.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -22,6 +27,40 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeProvider tema = Provider.of<ThemeProvider>(context);
+     Widget WidgetTheme(){ 
+    
+    return Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Tema",style: TextStyle(fontWeight: FontWeight.bold)),
+            TextButton.icon(
+              onPressed: (){
+                tema.setthemedata(temaDia());
+              }, 
+              icon: Icon(Icons.brightness_1, color: Colors.black,), 
+              label: Text("")
+            ),
+            TextButton.icon(
+              onPressed: (){
+                tema.setthemedata(temaNoche());
+              }, 
+              icon: Icon(Icons.dark_mode, color: Colors.black,), 
+              label: Text("")
+            ),
+            TextButton.icon(
+              onPressed: (){
+                tema.setthemedata(temaCalido());
+              }, 
+              icon: Icon(Icons.hot_tub_sharp, color: Colors.black,), 
+              label: Text("")
+            ),
+          ],
+        ),
+      );
+  }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
@@ -57,6 +96,7 @@ class DashboardScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 accountEmail: Text('18030666@itcelaya.edu.mx')),
+            WidgetTheme(),
             ListTile(
               leading: Image.asset('assets/smartphone.png'),
               trailing: Icon(Icons.chevron_right),
@@ -82,6 +122,14 @@ class DashboardScreen extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: Image.asset('assets/smartphone.png'),
+              trailing: Icon(Icons.chevron_right),
+              title: Text('About Us'),
+              onTap: () {
+                Navigator.pushNamed(context, '/about');
+              },
+            ),
+            ListTile(
               leading: Image.asset('assets/logout.png'),
               trailing: Icon(Icons.chevron_right),
               title: Text('Log Out'),
@@ -92,7 +140,7 @@ class DashboardScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: ThemeScreen(),
+      body: HomePage(),
     );
   }
 }
@@ -120,9 +168,7 @@ class _HeroScreenState extends State<HeroScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 207, 51),
-      ),
+      //appBar: AppBar(        backgroundColor: Color.fromARGB(255, 255, 207, 51),      ),
       body: FutureBuilder(
         future: _database!.getPerfil(),
         builder: (context, AsyncSnapshot<List<PerfilDAO>> snapshot) {

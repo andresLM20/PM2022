@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({Key? key}) : super(key: key);
+class OnBoardingValidate extends StatelessWidget {
+  const OnBoardingValidate({Key? key}) : super(key: key);
 
   Future<void> sesionCheck(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //SharedPreferences Inicio de sesión
-    bool? ban = await prefs.getBool('ban');
-    if (ban == true) {
-      Navigator.pushNamed(context, '/dash');
+    //SharedPreferences On boarding
+    bool? showHome = await prefs.getBool('showHome');
+    if (showHome == false) {
+      Navigator.pushNamed(context, '/onboarding');
     } else {
-      Navigator.pushNamed(context, '/login');
+      Navigator.pushNamed(context, '/mainscreen');
     }
   }
 

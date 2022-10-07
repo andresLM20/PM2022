@@ -44,6 +44,8 @@ dependencies:
   font_awesome_flutter: ^10.2.1
   url_launcher: ^6.1.6
   image_picker: ^0.8.6
+  smooth_page_indicator: ^1.0.0+2
+  google_maps_flutter: ^2.2.1
 
 dev_dependencies:
   flutter_test:
