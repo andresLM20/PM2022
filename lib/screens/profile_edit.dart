@@ -69,6 +69,7 @@ class _ProfileEditState extends State<ProfileEdit> {
             (value) {
               final snackBar = SnackBar(content: Text('Datos actualizados'));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              Navigator.pop(context);
             },
           );
         },

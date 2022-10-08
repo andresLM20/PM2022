@@ -53,6 +53,7 @@ class _TaskScreenState extends State<TaskScreen> {
             'tblTareas').then((value) {
               final snackBar = SnackBar(content: Text('Tarea registrada correctamente'));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              Navigator.pop(context);
             });
         }else{
           _database!.actualizar({
@@ -63,6 +64,7 @@ class _TaskScreenState extends State<TaskScreen> {
             (value) {
               final snackBar = SnackBar(content: Text('Tarea actualizada'));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              Navigator.pop(context);
             },
           );
         }

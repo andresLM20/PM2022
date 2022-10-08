@@ -46,9 +46,6 @@ class DatabaseHelperP {
   Future<List<PerfilDAO>> getPerfil() async {
     var conexion = await database;
     var result = await conexion.query('tblperfil');
-    print("Inicio desde helperP");
-    print(result);
-    print("Fin");
     return result.map((mapPerfil) => PerfilDAO.fromJSON(mapPerfil)).toList();
   }
 }

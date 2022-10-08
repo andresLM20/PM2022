@@ -1,4 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pm2022/database/database_helperP.dart';
 import 'package:pm2022/models/perfil_model.dart';
 import 'package:pm2022/provider/theme_provider.dart';
@@ -11,9 +14,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pm2022/settings/styles_settings.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
+
   Future<void> sesionClose(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? ban = prefs.getBool('ban');
@@ -24,7 +29,7 @@ class DashboardScreen extends StatelessWidget {
       return LoginScreen();
     }), (route) => route.isFirst);
   }
-
+  
   @override
   Widget build(BuildContext context) {
     ThemeProvider tema = Provider.of<ThemeProvider>(context);
@@ -145,6 +150,10 @@ class DashboardScreen extends StatelessWidget {
   }
 }
 
+//FINAL DASHBOARD SCREEN 
+//--------------------------------------------------------------------------------
+//INICIO HERO SCREEN
+
 class HeroScreen extends StatefulWidget {
   const HeroScreen({Key? key}) : super(key: key);
 
@@ -157,12 +166,26 @@ class _HeroScreenState extends State<HeroScreen> {
 
   final double coverHeight = 280;
   final double profileHeight = 144;
+  File? image;
 
-  @override
+    @override
   void initState() {
     super.initState();
     _database=DatabaseHelperP();
     _database!.getPerfil();
+  }
+
+  Future pickImage() async{
+    try{
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+      if(image==null){
+        return;
+      }
+      final imageTemp = File(image.path);
+      setState(() => this.image = imageTemp);
+    }on PlatformException catch(e){
+      print('Failed to pick image: $e');
+    }
   }
 
   @override
@@ -173,13 +196,13 @@ class _HeroScreenState extends State<HeroScreen> {
         future: _database!.getPerfil(),
         builder: (context, AsyncSnapshot<List<PerfilDAO>> snapshot) {
               var res = _database!.getPerfil();
-              print("Inicia Res");
-              print(res);
-              print("Termina res");
+              print('nombre desde build'+(snapshot.data?[0].nombre).toString()); //works
+              print('imagen desde build'+(snapshot.data?[0].imagen).toString()); //works
+              String path = (snapshot.data?[0].imagen).toString();
               return ListView(
               padding: EdgeInsets.zero,
               children: <Widget>[
-                buildTop(),
+                buildTop(snapshot, path),
                 buildContent(snapshot),
               ],
             );
@@ -188,10 +211,11 @@ class _HeroScreenState extends State<HeroScreen> {
     );
   }
 
-  Widget buildTop(){
+  Widget buildTop(AsyncSnapshot snapshot, String path){
     final bottom = profileHeight/2;
     final top = coverHeight - profileHeight/2;
     final top2 = 400 - profileHeight/2;
+    print('path desde buildtop'+path); //works
     return Stack(
         clipBehavior: Clip.none,
         alignment: Alignment.center,
@@ -202,7 +226,7 @@ class _HeroScreenState extends State<HeroScreen> {
             ),
           Positioned(
             top: top,
-            child: buildProfileImage()
+            child: buildProfileImage(snapshot,path)
             ),
           Positioned(
             top: top2,
@@ -215,7 +239,7 @@ class _HeroScreenState extends State<HeroScreen> {
   Widget buildButtonProfile() => Container(
     child: GestureDetector(
       onTap: () => {
-        
+        pickImage(),
       },
       child: CircleAvatar(
         radius: 25,
@@ -239,18 +263,20 @@ class _HeroScreenState extends State<HeroScreen> {
     ),
   );
 
-  Widget buildProfileImage() => 
-  Hero(
-    tag: 's2',
-    child: CircleAvatar(
-      radius: profileHeight/2 + 5,
-      backgroundColor: Colors.white,
+  Widget buildProfileImage(AsyncSnapshot snapshot, String path){ 
+    print('path desde buildprofile'+path); //works
+    return Hero(
+      tag: 's2',
       child: CircleAvatar(
-        radius: profileHeight/2,
-        backgroundImage: AssetImage('assets/cuphead.png'),
+        radius: profileHeight/2 + 5,
+        backgroundColor: Colors.white,
+        child: CircleAvatar(
+          radius: profileHeight/2,
+          backgroundImage: AssetImage('assets/cuphead.png'),
+        ),
       ),
-    ),
-  );
+    );
+  }
 
   Widget buildContent(AsyncSnapshot snapshot) => Column(
     children: [

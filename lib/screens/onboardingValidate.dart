@@ -7,7 +7,7 @@ class OnBoardingValidate extends StatelessWidget {
   Future<void> sesionCheck(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //SharedPreferences On boarding
-    bool? showHome = await prefs.getBool('showHome');
+    bool? showHome = prefs.getBool('showHome')?? false;
     if (showHome == false) {
       Navigator.pushNamed(context, '/onboarding');
     } else {

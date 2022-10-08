@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pm2022/screens/dashboard_screen.dart';
+import 'package:pm2022/screens/main_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -108,7 +109,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           prefs.setBool('showHome', true);
 
           Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: ((context) => DashboardScreen()))
+            MaterialPageRoute(builder: ((context) => MainScreen()))
           );
         },
       )

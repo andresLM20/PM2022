@@ -7,7 +7,7 @@ class MainScreen extends StatelessWidget {
   Future<void> sesionCheck(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //SharedPreferences Inicio de sesión
-    bool? ban = await prefs.getBool('ban');
+    bool? ban = prefs.getBool('ban')?? false;
     if (ban == true) {
       Navigator.pushNamed(context, '/dash');
     } else {

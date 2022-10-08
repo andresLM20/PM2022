@@ -26,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool? ban;
 
-  Future<void> sesionCheck() async {
+  /* Future<void> sesionCheck() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     ban = await prefs.getBool('ban');
 
@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (ban == true) {
       Navigator.pushNamed(context, '/dash');
     }
-  }
+  } */
   
   @override
   Widget build(BuildContext context) {

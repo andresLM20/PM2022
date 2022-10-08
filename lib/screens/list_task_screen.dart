@@ -75,9 +75,11 @@ class _ListTaskScreenState extends State<ListTaskScreen> {
                                   actions: [
                                     TextButton(
                                       onPressed: (){
-                                        print('Eliminado');
                                         _database!.eliminar(snapshot.data![index].idTarea!, 'tblTareas');
                                         Navigator.pop(context);
+                                        setState(() {
+                                          //Se actualiza
+                                        });
                                       }, 
                                       child: Text('Eliminar')
                                       ),
