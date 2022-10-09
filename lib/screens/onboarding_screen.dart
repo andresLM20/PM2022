@@ -39,7 +39,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         Text (
           title,
           style : TextStyle (
-            color : Colors.teal.shade700,
+            color : Color.fromARGB(255, 0, 0, 0),
             fontSize : 32 ,
             fontWeight : FontWeight.bold,
           ),
@@ -49,7 +49,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           padding : const EdgeInsets.symmetric (horizontal:20),
           child : Text (
             subtitle ,
-            style : TextStyle (color: Colors.teal.shade700),
+            style : TextStyle (color: Color.fromARGB(255, 0, 0, 0),fontSize: 17),
           ) , 
         ) ,
       ],
@@ -70,25 +70,25 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           },
           children:[
             buildPage(
-              color : Colors.green.shade100,
-              urlImage : 'assets/page1.png',
-              title : 'REDUCE',
+              color : Color.fromARGB(255, 241, 236, 78),
+              urlImage : 'assets/img1.png',
+              title : 'CUPHEAD',
               subtitle :
-                  ' Lorem ipsum dolor sit amet , consectetur ad',
+                  'Cuphead es un juego de acción clásico estilo "dispara y corre" que se centra en combates contra el jefe. Inspirado en los dibujos animados de los años 30, los aspectos visual y sonoro están diseñados con esmero empleando las mismas técnicas de la época.',
             ),
             buildPage(
-              color : Colors.green.shade100,
-              urlImage : 'assets/page2.png',
-              title : 'RECYCLE',
+              color : Color.fromARGB(255, 241, 236, 78),
+              urlImage : 'assets/img2.png',
+              title : 'BATALLAS',
               subtitle :
-                  ' Lorem ipsum dolor sit amet , consectetur ad',
+                  'Sin ninguna duda las batallas contra estos jefes son uno de los puntos más destacados de Cuphead. En total son cerca de 20 combates los que libraremos durante todo el juego.',
             ),
             buildPage(
-              color : Colors.green.shade100,
-              urlImage : 'assets/page3.png',
-              title : 'REUSE',
+              color : Color.fromARGB(255, 241, 236, 78),
+              urlImage : 'assets/img3.png',
+              title : 'JUEGA AHORA',
               subtitle :
-                  ' Lorem ipsum dolor sit amet , consectetur ad',
+                  'Juega como Cuphead o Mugman (en modo de un jugador o cooperativo) y cruza mundos extraños, adquiere nuevas armas, aprende poderosos supermovimientos y descubre secretos ocultos mientras procuras saldar tu deuda con el diablo.',
             ),
           ],
         ),
@@ -100,10 +100,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               borderRadius: BorderRadius.circular(0),
             ),
             primary: Colors.white,
-            backgroundColor: Colors.teal.shade700,
+            backgroundColor: Color.fromARGB(255, 164, 170, 8),
             minimumSize: Size.fromHeight(80),
         ),
-        child: Text('Get Started', style: TextStyle(fontSize: 24),),
+        child: Text('Get Started', style: TextStyle(fontSize: 24, color: Colors.black),),
         onPressed: () async {
           final prefs = await SharedPreferences.getInstance();
           prefs.setBool('showHome', true);
@@ -121,7 +121,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           children: [
             TextButton(
               onPressed: () => controller.jumpToPage(2),
-              child: Text("Skip")
+              child: Text("Skip",style: TextStyle(color: Color.fromARGB(255, 164, 170, 8)))
             ),
             Center(
               child: SmoothPageIndicator(
@@ -130,7 +130,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 effect: WormEffect(
                   spacing: 16,
                   dotColor: Colors.black26,
-                  activeDotColor: Colors.teal.shade700,
+                  activeDotColor: Color.fromARGB(255, 164, 170, 8),
                 ),
                 onDotClicked: (index) => controller.animateToPage(
                   index, 
@@ -142,7 +142,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               onPressed: () => controller.nextPage(
                 duration: Duration(milliseconds: 500), 
                 curve: Curves.easeInOut), 
-              child: Text("Next")
+              child: Text("Next",style: TextStyle(color: Color.fromARGB(255, 164, 170, 8)),),
             ),
         ]),
       ),
