@@ -16,9 +16,15 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:pm2022/settings/styles_settings.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
 
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  File? image;
   Future<void> sesionClose(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? ban = prefs.getBool('ban');
@@ -29,12 +35,33 @@ class DashboardScreen extends StatelessWidget {
       return LoginScreen();
     }), (route) => route.isFirst);
   }
-  
+
+  DatabaseHelperP? _databaseHelper;
+
+  @override
+  void initState() {
+    super.initState();
+    _databaseHelper = DatabaseHelperP();
+  }
+
+//TRAE LOS VAORES DEL USUSARIO DEL ID QUE SE TIENE
+  var data,data2,data3;
+
+  Future<void> getDatos(context) async {
+    data = await _databaseHelper?.getFotoPath();
+    print('ruta: '+data.first.imagen);
+    if(data.first.imagen=='assets/cuphead.png')
+      {image== null;}
+    else
+      {image = File(data.first.imagen);}
+    data2 = await _databaseHelper?.getNombre();
+    data3 = await _databaseHelper?.getCorreo();
+  }
+
   @override
   Widget build(BuildContext context) {
     ThemeProvider tema = Provider.of<ThemeProvider>(context);
      Widget WidgetTheme(){ 
-    
     return Center(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -70,80 +97,93 @@ class DashboardScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
       ),
-      drawer: Drawer(
-        backgroundColor: Color.fromARGB(255, 255, 207, 51),
-        child: ListView(
-          children: [
-            UserAccountsDrawerHeader(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('assets/cup3.jpg'), //Portada
-                        fit: BoxFit.cover)),
-                currentAccountPicture: GestureDetector(
-                  onTap: () => Navigator.of(context).push(
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) => HeroScreen(),
-                      transitionsBuilder: (context, animation, secondaryAnimation, child){
-                        return child;
-                      }
+      drawer: FutureBuilder(
+        future: getDatos(context),
+        builder: (BuildContext context, AsyncSnapshot snapshot){
+          return Drawer(
+            backgroundColor: Color.fromARGB(255, 255, 207, 51),
+            child: ListView(
+              children: [
+                UserAccountsDrawerHeader(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/cup3.jpg'), //Portada
+                            fit: BoxFit.cover)),
+                    currentAccountPicture: GestureDetector(
+                      onTap: () { 
+                        Navigator.pushNamed(context, '/perfil',
+                        arguments:{
+                          'imagen':data.first.imagen,
+                        }).then((value) => setState((){}));
+                      },
+                      child: Hero(
+                        tag: 's2',
+                        child: image == null 
+                        ? CircleAvatar(
+                          backgroundImage: AssetImage('assets/cuphead.png'),  //Perfil
+                          backgroundColor: Color.fromARGB(255, 255, 207, 51),
+                        ) : CircleAvatar(
+                          backgroundImage: Image.file(image!).image,
+                        ),
+                      ),
                     ),
-                  ),
-                  child: Hero(
-                    tag: 's2',
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage('assets/cuphead.png'),  //Perfil
-                      backgroundColor: Color.fromARGB(255, 255, 207, 51),
+                    accountName: data2.first.nombre == null
+                    ? Text(
+                      'Andrés Morales Martínez',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    )
+                    : Text(
+                      data2.first.nombre,
+                      style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
-                  ),
+                    accountEmail: data3.first.correo == null
+                    ? Text('18030666@itcelaya.edu.mx') : Text(data3.first.correo),
+                    ),
+                WidgetTheme(),
+                ListTile(
+                  leading: Image.asset('assets/smartphone.png'),
+                  trailing: Icon(Icons.chevron_right),
+                  title: Text('Base de datos'),
+                  onTap: () {
+                    
+                  },
                 ),
-                accountName: Text(
-                  'Andrés Morales Martínez',
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ListTile(
+                  leading: Image.asset('assets/smartphone.png'),
+                  trailing: Icon(Icons.chevron_right),
+                  title: Text('List Task'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/task');
+                  },
                 ),
-                accountEmail: Text('18030666@itcelaya.edu.mx')),
-            WidgetTheme(),
-            ListTile(
-              leading: Image.asset('assets/smartphone.png'),
-              trailing: Icon(Icons.chevron_right),
-              title: Text('Base de datos'),
-              onTap: () {
-                
-              },
+                ListTile(
+                  leading: Image.asset('assets/smartphone.png'),
+                  trailing: Icon(Icons.chevron_right),
+                  title: Text('Popular Movies'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/popular');
+                  },
+                ),
+                ListTile(
+                  leading: Image.asset('assets/smartphone.png'),
+                  trailing: Icon(Icons.chevron_right),
+                  title: Text('About Us'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/about');
+                  },
+                ),
+                ListTile(
+                  leading: Image.asset('assets/logout.png'),
+                  trailing: Icon(Icons.chevron_right),
+                  title: Text('Log Out'),
+                  onTap: () {
+                    sesionClose(context);
+                  },
+                ),
+              ],
             ),
-            ListTile(
-              leading: Image.asset('assets/smartphone.png'),
-              trailing: Icon(Icons.chevron_right),
-              title: Text('List Task'),
-              onTap: () {
-                Navigator.pushNamed(context, '/task');
-              },
-            ),
-            ListTile(
-              leading: Image.asset('assets/smartphone.png'),
-              trailing: Icon(Icons.chevron_right),
-              title: Text('Popular Movies'),
-              onTap: () {
-                Navigator.pushNamed(context, '/popular');
-              },
-            ),
-            ListTile(
-              leading: Image.asset('assets/smartphone.png'),
-              trailing: Icon(Icons.chevron_right),
-              title: Text('About Us'),
-              onTap: () {
-                Navigator.pushNamed(context, '/about');
-              },
-            ),
-            ListTile(
-              leading: Image.asset('assets/logout.png'),
-              trailing: Icon(Icons.chevron_right),
-              title: Text('Log Out'),
-              onTap: () {
-                sesionClose(context);
-              },
-            ),
-          ],
-        ),
+          );
+        }
       ),
       body: HomePage(),
     );
@@ -163,37 +203,68 @@ class HeroScreen extends StatefulWidget {
 
 class _HeroScreenState extends State<HeroScreen> {
   DatabaseHelperP? _database;
-
+  var data;
+  var ruta;
   final double coverHeight = 280;
   final double profileHeight = 144;
   File? image;
+  final _picker = ImagePicker();
 
-    @override
+  @override
   void initState() {
     super.initState();
     _database=DatabaseHelperP();
     _database!.getPerfil();
   }
 
-  Future pickImage() async{
-    try{
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
-      if(image==null){
-        return;
-      }
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    }on PlatformException catch(e){
-      print('Failed to pick image: $e');
+  Future setImage(op) async{
+    var pickerFile;
+     if (op == 1) {
+      pickerFile = await _picker.pickImage(source: ImageSource.camera);
+    } else {
+      pickerFile = await _picker.pickImage(source: ImageSource.gallery);
     }
+    if (pickerFile != null) {
+      _database?.actualizarPerfil({
+        'idperfil': 0,
+        'imagen': pickerFile.path,
+      }, 'tblperfil').then((value) => setState(() {
+            print('Foto Actualizada');
+          }));
+      ruta = await _database?.getFotoPath();
+    }
+    setState(() {
+      if (pickerFile != null && ruta != null) {
+        image = File(ruta.first.imagen);
+      }
+    });
+    Navigator.of(context).pop();
+    final snackBar = SnackBar(content: Text('Foto actualizada'));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  Future<List<PerfilDAO>> setData(context) async{
+    data=_database!.getPerfil();
+    ruta = await _database?.getFotoPath();
+    if(ruta.first.imagen=='assets/cuphead.png')
+      {image== null;}
+    else
+      {image = File(ruta.first.imagen);}
+    return data;
   }
 
   @override
   Widget build(BuildContext context) {
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      final perfil = ModalRoute.of(context)!.settings.arguments as Map;
+      //SI LA IMAGEN ES NULA ASIGNA IMAGEN NULA
+      if (perfil['imagen'] == null) {
+        image = null;
+      }
+    }
     return Scaffold(
-      //appBar: AppBar(        backgroundColor: Color.fromARGB(255, 255, 207, 51),      ),
       body: FutureBuilder(
-        future: _database!.getPerfil(),
+        future: setData(context),
         builder: (context, AsyncSnapshot<List<PerfilDAO>> snapshot) {
               var res = _database!.getPerfil();
               print('nombre desde build'+(snapshot.data?[0].nombre).toString()); //works
@@ -226,7 +297,7 @@ class _HeroScreenState extends State<HeroScreen> {
             ),
           Positioned(
             top: top,
-            child: buildProfileImage(snapshot,path)
+            child: buildProfileImage(snapshot)
             ),
           Positioned(
             top: top2,
@@ -238,8 +309,39 @@ class _HeroScreenState extends State<HeroScreen> {
 
   Widget buildButtonProfile() => Container(
     child: GestureDetector(
-      onTap: () => {
-        pickImage(),
+      onTap: () async => {
+        showModalBottomSheet(
+          context: context, 
+          builder: (context) => Container(
+            padding: EdgeInsets.all(MediaQuery.of(context).size.width/30),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: Icon(
+                    Icons.linear_scale_sharp
+                  ),
+                ),
+                ListTile(
+                  trailing: Icon(
+                    Icons.camera_alt_rounded,
+                    size: MediaQuery.of(context).size.height/30,
+                  ),
+                  title: Text('Cámara', style: TextStyle(fontSize: MediaQuery.of(context).size.height/40),),
+                  onTap: (){setImage(1);},
+                ),
+                ListTile(
+                  trailing: Icon(
+                    Icons.image_rounded,
+                    size: MediaQuery.of(context).size.height/30,
+                  ),
+                  title: Text('Galería', style: TextStyle(fontSize: MediaQuery.of(context).size.height/40),),
+                  onTap: (){setImage(2);},
+                ),
+              ]
+            ),
+          )
+        )
       },
       child: CircleAvatar(
         radius: 25,
@@ -263,17 +365,21 @@ class _HeroScreenState extends State<HeroScreen> {
     ),
   );
 
-  Widget buildProfileImage(AsyncSnapshot snapshot, String path){ 
-    print('path desde buildprofile'+path); //works
+  Widget buildProfileImage(AsyncSnapshot snapshot){ 
     return Hero(
       tag: 's2',
       child: CircleAvatar(
         radius: profileHeight/2 + 5,
         backgroundColor: Colors.white,
-        child: CircleAvatar(
+        child: image == null
+        ? CircleAvatar(
           radius: profileHeight/2,
-          backgroundImage: AssetImage('assets/cuphead.png'),
-        ),
+          backgroundImage: AssetImage('assets/cuphead.png')
+        )
+        : CircleAvatar(
+          radius: profileHeight/2,
+          backgroundImage: Image.file(image!).image,
+        )
       ),
     );
   }

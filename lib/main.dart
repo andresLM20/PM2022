@@ -54,6 +54,7 @@ class PMSNApp extends StatelessWidget {
           '/home': (BuildContext context) => HomePage(),
           '/onboarding': (BuildContext context) => OnBoardingScreen(),
           '/mainscreen': (BuildContext context) => MainScreen(),
+          '/perfil': (BuildContext context) => HeroScreen(),
         },
       );
   }

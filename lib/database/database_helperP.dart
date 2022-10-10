@@ -48,4 +48,37 @@ class DatabaseHelperP {
     var result = await conexion.query('tblperfil');
     return result.map((mapPerfil) => PerfilDAO.fromJSON(mapPerfil)).toList();
   }
+
+  Future<List<PerfilDAO>?> getFotoPath() async {
+    var conexion = await database;
+    var result = await conexion.rawQuery('SELECT imagen FROM tblperfil where idperfil = 0');
+    if(result.length > 0){
+      return result.map((mapPerfil) => PerfilDAO.fromJSON(mapPerfil)).toList();
+    }
+    else{
+      return null;
+    }
+  }
+
+  Future<List<PerfilDAO>?> getNombre() async {
+    var conexion = await database;
+    var result = await conexion.rawQuery('SELECT nombre FROM tblperfil where idperfil = 0');
+    if(result.length > 0){
+      return result.map((mapPerfil) => PerfilDAO.fromJSON(mapPerfil)).toList();
+    }
+    else{
+      return null;
+    }
+  }
+
+  Future<List<PerfilDAO>?> getCorreo() async {
+    var conexion = await database;
+    var result = await conexion.rawQuery('SELECT correo FROM tblperfil where idperfil = 0');
+    if(result.length > 0){
+      return result.map((mapPerfil) => PerfilDAO.fromJSON(mapPerfil)).toList();
+    }
+    else{
+      return null;
+    }
+  }
 }
