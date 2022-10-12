@@ -15,6 +15,7 @@ import 'package:pm2022/screens/task_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

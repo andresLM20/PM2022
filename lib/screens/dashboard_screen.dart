@@ -143,15 +143,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ListTile(
                   leading: Image.asset('assets/smartphone.png'),
                   trailing: Icon(Icons.chevron_right),
-                  title: Text('Base de datos'),
-                  onTap: () {
-                    
-                  },
-                ),
-                ListTile(
-                  leading: Image.asset('assets/smartphone.png'),
-                  trailing: Icon(Icons.chevron_right),
-                  title: Text('List Task'),
+                  title: Text('Lista de tareas'),
                   onTap: () {
                     Navigator.pushNamed(context, '/task');
                   },
@@ -159,7 +151,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ListTile(
                   leading: Image.asset('assets/smartphone.png'),
                   trailing: Icon(Icons.chevron_right),
-                  title: Text('Popular Movies'),
+                  title: Text('Películas Populares'),
                   onTap: () {
                     Navigator.pushNamed(context, '/popular');
                   },
@@ -167,9 +159,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ListTile(
                   leading: Image.asset('assets/smartphone.png'),
                   trailing: Icon(Icons.chevron_right),
-                  title: Text('About Us'),
+                  title: Text('Sobre nosotros'),
                   onTap: () {
                     Navigator.pushNamed(context, '/about');
+                  },
+                ),
+                ListTile(
+                  leading: Image.asset('assets/smartphone.png'),
+                  trailing: Icon(Icons.chevron_right),
+                  title: Text('OnBoarding'),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/onboarding');
                   },
                 ),
                 ListTile(
