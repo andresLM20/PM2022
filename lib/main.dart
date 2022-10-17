@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pm2022/provider/theme_provider.dart';
 import 'package:pm2022/screens/about_us_screen.dart';
@@ -9,12 +10,15 @@ import 'package:pm2022/screens/main_screen.dart';
 import 'package:pm2022/screens/onboarding_screen.dart';
 import 'package:pm2022/screens/popular_detail_screen.dart';
 import 'package:pm2022/screens/profile_edit.dart';
+import 'package:pm2022/screens/sign_up_screen.dart';
 import 'package:pm2022/screens/splash_screen.dart';
 import 'package:pm2022/screens/login_screen.dart';
 import 'package:pm2022/screens/task_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
@@ -24,6 +28,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool? dia, noche, calido;
+    Future<void> getTema() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      dia = prefs.getBool('dia');
+      noche = prefs.getBool('noche');
+      calido = prefs.getBool('calido');
+
+      print('dia es $dia, noche es $noche, calido es $calido');
+    }
+
     return ChangeNotifierProvider(
       create: (_) => ThemeProvider(),
       child: PMSNApp(),
@@ -56,6 +70,7 @@ class PMSNApp extends StatelessWidget {
           '/onboarding': (BuildContext context) => OnBoardingScreen(),
           '/mainscreen': (BuildContext context) => MainScreen(),
           '/perfil': (BuildContext context) => HeroScreen(),
+          '/signup': (BuildContext context) => SignUpScreen(),
         },
       );
   }

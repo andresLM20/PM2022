@@ -47,6 +47,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   google_maps_flutter: ^2.2.1
   modal_bottom_sheet: ^2.0.0
+  firebase_core: ^1.24.0
 
 dev_dependencies:
   flutter_test:

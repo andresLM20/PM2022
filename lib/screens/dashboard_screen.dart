@@ -15,6 +15,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:pm2022/settings/styles_settings.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'globals.dart' as globals;
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -25,11 +26,24 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   File? image;
+
+  bool? dia, noche, calido;
+  Future<void> getTema() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    dia = prefs.getBool('dia');
+    noche = prefs.getBool('noche');
+    calido = prefs.getBool('calido');
+  }
+
   Future<void> sesionClose(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? ban = prefs.getBool('ban');
     print('Este es el valor de ban en el dash $ban');
     await prefs.setBool('ban', false);
+    await prefs.setBool('dia', false);
+    await prefs.setBool('noche', false);
+    await prefs.setBool('calido', false);
+    globals.countGlobal = 0;
     Navigator.pushAndRemoveUntil(context,
         MaterialPageRoute(builder: (BuildContext context) {
       return LoginScreen();
